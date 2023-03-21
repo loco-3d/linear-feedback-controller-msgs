@@ -28,7 +28,7 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosConstructors) {
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenMatrixConversion) {
   Eigen::MatrixXd eigen_mat = Eigen::MatrixXd::Random(5, 6);
   std_msgs::Float64MultiArray ros_mat;
-  Eigen::MatrixXd eigen_mat_test;
+  Eigen::MatrixXd eigen_mat_test = Eigen::MatrixXd::Zero(5, 6);
 
   lfc_msgs::matrixEigenToMsg(eigen_mat, ros_mat);
   lfc_msgs::matrixMsgToEigen(ros_mat, eigen_mat_test);
@@ -105,6 +105,15 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenControlConversion) {
       Eigen::VectorXd::Random(e.initial_state.joint_state.name.size());
   e.feedback_gain = Eigen::MatrixXd::Random(8, 4);
   e.feedforward = Eigen::VectorXd::Random(8);
+
+  etest.initial_state.base_pose.setZero();
+  etest.initial_state.base_twist.setZero();
+  etest.initial_state.joint_state.name = {"1", "2", "3", "4", "5", "6"};
+  etest.initial_state.joint_state.position = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.initial_state.joint_state.velocity = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.initial_state.joint_state.effort = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.feedback_gain = Eigen::MatrixXd::Zero(8, 4);
+  etest.feedforward = Eigen::VectorXd::Zero(8);
 
   lfc_msgs::controlEigenToMsg(e, m);
   lfc_msgs::controlMsgToEigen(m, etest);
