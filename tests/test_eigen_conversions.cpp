@@ -109,9 +109,12 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenControlConversion) {
   etest.initial_state.base_pose.setZero();
   etest.initial_state.base_twist.setZero();
   etest.initial_state.joint_state.name = {"1", "2", "3", "4", "5", "6"};
-  etest.initial_state.joint_state.position = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
-  etest.initial_state.joint_state.velocity = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
-  etest.initial_state.joint_state.effort = Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.initial_state.joint_state.position =
+      Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.initial_state.joint_state.velocity =
+      Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
+  etest.initial_state.joint_state.effort =
+      Eigen::VectorXd::Zero(e.initial_state.joint_state.name.size());
   etest.feedback_gain = Eigen::MatrixXd::Zero(8, 4);
   etest.feedforward = Eigen::VectorXd::Zero(8);
 
