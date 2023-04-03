@@ -23,6 +23,7 @@ struct Contact {
   bool active;
   std::string name;
   ::Eigen::Matrix<double, 6, 1> wrench;
+  ::Eigen::Matrix<double, 7, 1> pose;
 };
 
 struct Sensor {
@@ -91,6 +92,13 @@ inline void contactMsgToEigen(
   e.active = m.active;
   e.name = m.name;
   tf::wrenchMsgToEigen(m.wrench, e.wrench);
+  e.pose(0) = m.pose.position.x;
+  e.pose(1) = m.pose.position.y;
+  e.pose(2) = m.pose.position.z;
+  e.pose(3) = m.pose.orientation.x;
+  e.pose(4) = m.pose.orientation.y;
+  e.pose(5) = m.pose.orientation.z;
+  e.pose(6) = m.pose.orientation.w;
 }
 
 inline void sensorMsgToEigen(
@@ -139,6 +147,13 @@ inline void contactEigenToMsg(
   m.active = e.active;
   m.name = e.name;
   tf::wrenchEigenToMsg(e.wrench, m.wrench);
+  m.pose.position.x = e.pose(0);
+  m.pose.position.y = e.pose(1);
+  m.pose.position.z = e.pose(2);
+  m.pose.orientation.x = e.pose(3);
+  m.pose.orientation.y = e.pose(4);
+  m.pose.orientation.z = e.pose(5);
+  m.pose.orientation.w = e.pose(6);
 }
 
 inline void sensorEigenToMsg(
