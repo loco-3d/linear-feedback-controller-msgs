@@ -73,6 +73,19 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
   e.joint_state.position = Eigen::VectorXd::Random(e.joint_state.name.size());
   e.joint_state.velocity = Eigen::VectorXd::Random(e.joint_state.name.size());
   e.joint_state.effort = Eigen::VectorXd::Random(e.joint_state.name.size());
+  e.contacts.resize(2);
+  e.contacts[0] = {
+      .active = true,
+      .name = "left_foot",
+      .wrench = Eigen::Matrix<double, 6, 1>::Random(),
+      .pose = Eigen::Matrix<double, 7, 1>::Random(),
+  };
+  e.contacts[1] = {
+      .active = false,
+      .name = "right_foot",
+      .wrench = Eigen::Matrix<double, 6, 1>::Random(),
+      .pose = Eigen::Matrix<double, 7, 1>::Random(),
+  };
 
   lfc_msgs::sensorEigenToMsg(e, m);
   lfc_msgs::sensorMsgToEigen(m, etest);
@@ -83,6 +96,12 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
   ASSERT_EQ(e.joint_state.position, etest.joint_state.position);
   ASSERT_EQ(e.joint_state.velocity, etest.joint_state.velocity);
   ASSERT_EQ(e.joint_state.effort, etest.joint_state.effort);
+  for (std::size_t i = 0; i < e.contacts.size(); ++i) {
+    ASSERT_EQ(e.contacts[i].active, etest.contacts[i].active);
+    ASSERT_EQ(e.contacts[i].name, etest.contacts[i].name);
+    ASSERT_EQ(e.contacts[i].pose, etest.contacts[i].pose);
+    ASSERT_EQ(e.contacts[i].wrench, etest.contacts[i].wrench);
+  }
 }
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenControlConversion) {
