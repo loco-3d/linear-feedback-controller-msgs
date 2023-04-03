@@ -73,6 +73,19 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
   e.joint_state.position = Eigen::VectorXd::Random(e.joint_state.name.size());
   e.joint_state.velocity = Eigen::VectorXd::Random(e.joint_state.name.size());
   e.joint_state.effort = Eigen::VectorXd::Random(e.joint_state.name.size());
+  e.contacts.resize(2);
+  e.contacts[0] = {
+      .active = true,
+      .name = "left_foot",
+      .wrench = Eigen::Matrix<double, 6, 1>::Random(),
+      .pose = Eigen::Matrix<double, 7, 1>::Random(),
+  };
+  e.contacts[1] = {
+      .active = false,
+      .name = "right_foot",
+      .wrench = Eigen::Matrix<double, 6, 1>::Random(),
+      .pose = Eigen::Matrix<double, 7, 1>::Random(),
+  };
 
   lfc_msgs::sensorEigenToMsg(e, m);
   lfc_msgs::sensorMsgToEigen(m, etest);
