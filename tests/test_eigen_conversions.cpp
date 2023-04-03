@@ -83,6 +83,12 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
   ASSERT_EQ(e.joint_state.position, etest.joint_state.position);
   ASSERT_EQ(e.joint_state.velocity, etest.joint_state.velocity);
   ASSERT_EQ(e.joint_state.effort, etest.joint_state.effort);
+  for (std::size_t i = 0; i < e.contacts.size(); ++i) {
+    ASSERT_EQ(e.contacts[i].active, etest.contacts[i].active);
+    ASSERT_EQ(e.contacts[i].name, etest.contacts[i].name);
+    ASSERT_EQ(e.contacts[i].pose, etest.contacts[i].pose);
+    ASSERT_EQ(e.contacts[i].wrench, etest.contacts[i].wrench);
+  }
 }
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenControlConversion) {
