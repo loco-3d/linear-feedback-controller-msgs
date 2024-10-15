@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
+#include "linear_feedback_controller_msgs/eigen_conversions.hpp"
 #include "linear_feedback_controller_msgs/msg/control.hpp"
 #include "linear_feedback_controller_msgs/msg/sensor.hpp"
-#include "linear_feedback_controller_msgs/eigen_conversions.hpp"
 
 namespace lfc_msgs = linear_feedback_controller_msgs;
 
