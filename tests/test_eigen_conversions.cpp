@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "linear_feedback_controller_msgs/Control.h"
-#include "linear_feedback_controller_msgs/Sensor.h"
+#include "linear_feedback_controller_msgs/msg/control.hpp"
+#include "linear_feedback_controller_msgs/msg/sensor.hpp"
 #include "linear_feedback_controller_msgs/eigen_conversions.hpp"
 
 namespace lfc_msgs = linear_feedback_controller_msgs;
@@ -21,13 +21,13 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkEigenConstructors) {
 }
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosConstructors) {
-  lfc_msgs::Sensor s;
-  lfc_msgs::Control c;
+  lfc_msgs::msg::Sensor s;
+  lfc_msgs::msg::Control c;
 }
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenMatrixConversion) {
   Eigen::MatrixXd eigen_mat = Eigen::MatrixXd::Random(5, 6);
-  std_msgs::Float64MultiArray ros_mat;
+  std_msgs::msg::Float64MultiArray ros_mat;
   Eigen::MatrixXd eigen_mat_test = Eigen::MatrixXd::Zero(5, 6);
 
   lfc_msgs::matrixEigenToMsg(eigen_mat, ros_mat);
@@ -38,7 +38,7 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenMatrixConversion) {
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenJointStateConversion) {
   lfc_msgs::Eigen::JointState eigen_joint_state;
-  sensor_msgs::JointState ros_joint_state;
+  sensor_msgs::msg::JointState ros_joint_state;
   lfc_msgs::Eigen::JointState eigen_joint_state_test;
 
   eigen_joint_state.name = {"1", "2", "3", "4", "5", "6"};
@@ -60,7 +60,7 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenJointStateConversion) {
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
   lfc_msgs::Eigen::Sensor e;
-  lfc_msgs::Sensor m;
+  lfc_msgs::msg::Sensor m;
   lfc_msgs::Eigen::Sensor etest;
 
   e.base_pose = Eigen::Matrix<double, 7, 1>::Random();
@@ -106,7 +106,7 @@ TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenSensorConversion) {
 
 TEST_F(LinearFeedbackControllerMsgsTest, checkRosEigenControlConversion) {
   lfc_msgs::Eigen::Control e;
-  lfc_msgs::Control m;
+  lfc_msgs::msg::Control m;
   lfc_msgs::Eigen::Control etest;
 
   e.initial_state.base_pose = Eigen::Matrix<double, 7, 1>::Random();

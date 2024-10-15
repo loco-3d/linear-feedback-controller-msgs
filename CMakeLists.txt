@@ -1,58 +1,44 @@
-cmake_minimum_required(VERSION 3.10)
+# Copyright 2024 PAL Robotics SL. All Rights Reserved
+#
+# Unauthorized copying of this file, via any medium is strictly prohibited,
+# unless it was supplied under the terms of a license agreement or nondisclosure
+# agreement with PAL Robotics SL. In this case it may not be copied or disclosed
+# except in accordance with the terms of that agreement.
 
-#
-# Choosing to build the unittest (Catkin vs Modern CMake vs Ament).
-#
-if(DEFINED CATKIN_ENABLE_TESTING)
-  set(BUILD_TESTING ${CATKIN_ENABLE_TESTING})
-endif()
+cmake_minimum_required(VERSION 3.22.1)
 
-#
-# Project definition
-#
-project(linear_feedback_controller_msgs LANGUAGES CXX)
+project(linear_feedback_controller_msgs)
 
-#
-# Dependencies
-#
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(catkin REQUIRED COMPONENTS std_msgs sensor_msgs geometry_msgs
-                                        eigen_conversions message_generation)
+find_package(tf2_eigen REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-#
-# Generate the messages
-#
-add_message_files(DIRECTORY msg FILES Contact.msg Control.msg Sensor.msg)
-generate_messages(DEPENDENCIES std_msgs sensor_msgs geometry_msgs)
-
-#
-# Export as catkin package (For ROS1 compatibility...).
-#
-# cmake-format: off
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS std_msgs sensor_msgs geometry_msgs message_runtime eigen_conversions
-  DEPENDS EIGEN3)
-# cmake-format: on
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Contact.msg"
+  "msg/Control.msg"
+  "msg/Sensor.msg"
+  DEPENDENCIES std_msgs sensor_msgs geometry_msgs
+  ADD_LINTER_TESTS
+)
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} rosidl_typesupport_cpp)
 
 #
 # Main lib.
 #
 set(${PROJECT_NAME}_HEADERS include/${PROJECT_NAME}/eigen_conversions.hpp)
 set(${PROJECT_NAME}_SOURCES "")
-add_library(${PROJECT_NAME} INTERFACE)
-target_link_libraries(
-  ${PROJECT_NAME}
-  INTERFACE Eigen3::Eigen ${std_msgs_LIBRARIES} ${sensor_msgs_LIBRARIES}
-            ${eigen_conversions_LIBRARIES} ${geometry_msgs_LIBRARIES}
-            ${message_generation_LIBRARIES})
+add_library(${PROJECT_NAME}_conversion INTERFACE)
+target_link_libraries(${PROJECT_NAME}_conversion
+  INTERFACE Eigen3::Eigen tf2_eigen::tf2_eigen "${cpp_typesupport_target}")
 target_include_directories(
-  ${PROJECT_NAME} SYSTEM
-  INTERFACE ${std_msgs_INCLUDE_DIRS} ${sensor_msgs_INCLUDE_DIRS}
-            ${eigen_conversions_INCLUDE_DIRS} ${geometry_msgs_INCLUDE_DIRS}
-            ${message_generation_INCLUDE_DIRS})
-target_include_directories(
-  ${PROJECT_NAME}
+  ${PROJECT_NAME}_conversion
   INTERFACE $<INSTALL_INTERFACE:include/>
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
@@ -60,20 +46,27 @@ target_include_directories(
 # Unit tests
 #
 if(BUILD_TESTING)
-  catkin_add_gtest(test_eigen_conversions tests/test_eigen_conversions.cpp
-                   tests/gtest_main.cpp)
-  target_link_libraries(test_eigen_conversions ${PROJECT_NAME})
+  ament_add_gtest(test_eigen_conversions tests/test_eigen_conversions.cpp
+                  tests/gtest_main.cpp)
+  target_link_libraries(test_eigen_conversions ${PROJECT_NAME}_conversion)
 endif()
 
 #
 # Install
 #
-install(
-  TARGETS ${PROJECT_NAME}
-  EXPORT ${TARGETS_EXPORT_NAME}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+# install(
+#   TARGETS ${PROJECT_NAME}_conversion
+#   EXPORT ${TARGETS_EXPORT_NAME}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
+
 install(
   DIRECTORY include/${PROJECT_NAME}
   DESTINATION include
   PATTERN "third_party" EXCLUDE)
+
+ament_export_dependencies(rosidl_default_runtime)
+ament_export_dependencies(eigen3_cmake_module)
+ament_export_dependencies(Eigen3)
+
+ament_package()
