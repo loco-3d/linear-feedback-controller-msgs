@@ -1,4 +1,4 @@
-name: Ubuntu20.04, ROS1 Continuous Integration
+name: Ubuntu20.04, ROS2 Continuous Integration
 
 on: [push, pull_request]
 
@@ -25,4 +25,4 @@ jobs:
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: linear_feedback_controller_msgs
-          target-ros1-distro: noetic
+          target-ros2-distro: humble
