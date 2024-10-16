@@ -17,7 +17,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Contact.msg"
   "msg/Control.msg"
   "msg/Sensor.msg"
-  DEPENDENCIES std_msgs sensor_msgs geometry_msgs
+  DEPENDENCIES builtin_interfaces std_msgs sensor_msgs geometry_msgs
   ADD_LINTER_TESTS
 )
 rosidl_get_typesupport_target(cpp_typesupport_target
