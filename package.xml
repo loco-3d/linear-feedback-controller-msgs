@@ -19,7 +19,7 @@
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
-  <depend>eigen_conversions</depend>
+  <depend>tf2_eigen</depend>
 
   <buildtool_export_depend>eigen3_cmake_module</buildtool_export_depend>
   <build_export_depend>eigen</build_export_depend>
