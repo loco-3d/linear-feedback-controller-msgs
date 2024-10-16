@@ -42,12 +42,8 @@ struct Control {
 // Create an alias to use only one namespace here.
 inline void wrenchEigenToMsg(const ::Eigen::Matrix<double, 6, 1>& e,
                              geometry_msgs::msg::Wrench& m) {
-  m.force.x = e(0);
-  m.force.y = e(1);
-  m.force.z = e(2);
-  m.torque.x = e(3);
-  m.torque.y = e(4);
-  m.torque.z = e(5);
+  tf2::toMsg(e.template head<3>(), m.force);
+  tf2::toMsg(e.template tail<3>(), m.torque);
 }
 
 inline void wrenchMsgToEigen(const geometry_msgs::msg::Wrench& m,
