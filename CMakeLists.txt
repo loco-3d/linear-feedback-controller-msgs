@@ -50,16 +50,21 @@ endif()
 #
 install(
   TARGETS ${PROJECT_NAME}_conversion
-  EXPORT ${TARGETS_EXPORT_NAME}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  EXPORT export_${PROJECT_NAME}
+  LIBRARY DESTINATION $[CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
 install(
   DIRECTORY include/${PROJECT_NAME}
   DESTINATION include
   PATTERN "third_party" EXCLUDE)
 
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 ament_export_dependencies(rosidl_default_runtime)
 ament_export_dependencies(eigen3_cmake_module)
 ament_export_dependencies(Eigen3)
+ament_export_dependencies(tf2_eigen)
 
 ament_package()
