@@ -212,6 +212,8 @@ def matrix_msg_to_numpy(
 
     Args:
         msg (std_msgs.msg.Float64MultiArray): Input ROS message with array.
+        return_vector (bool, optional): If ``True`` vector is returned in a shape (N,)
+        otherwise the shape is (N,1). Defaults to True.
 
     Returns:
         npt.NDArray[np.float64]: Output numpy matrix.
