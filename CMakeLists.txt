@@ -48,6 +48,10 @@ endif()
 #
 # Install
 #
+
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME}_py)
+
 install(
   TARGETS ${PROJECT_NAME}_conversion
   EXPORT export_${PROJECT_NAME}
