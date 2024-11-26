@@ -32,7 +32,7 @@ def test_check_numpy_constructors() -> None:
     )
     lfc_py_types.Control(
         feedback_gain=np.ones((4, 4)),
-        feedforward=np.ones((4, 4)),
+        feedforward=np.ones(4),
         initial_state=sensor,
     )
 
