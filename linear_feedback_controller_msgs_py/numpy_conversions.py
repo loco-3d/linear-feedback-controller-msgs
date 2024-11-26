@@ -183,7 +183,7 @@ def matrix_numpy_to_msg(input: npt.NDArray[np.float64]) -> Float64MultiArray:
         input (npt.NDArray[np.float64]]): Input matrix.
 
     Returns:
-        Float64MultiArray: ROS message with the matrix.
+        std_msgs.msg.Float64MultiArray: ROS message with the matrix.
     """
     assert (
         input.ndim == 2
@@ -207,7 +207,7 @@ def matrix_msg_to_numpy(msg: Float64MultiArray) -> npt.NDArray[np.float64]:
     """Converts ROS array message into numpy array.
 
     Args:
-        msg (Float64MultiArray): Input ROS message with array..
+        msg (std_msgs.msg.Float64MultiArray): Input ROS message with array.
 
     Returns:
         npt.NDArray[np.float64]: Output numpy matrix.
@@ -290,7 +290,7 @@ def joint_state_numpy_to_msg(input: lfc_py_types.JointState) -> JointState:
         input (lfc_py_types.JointState): Input LFC representation of Control.
 
     Returns:
-        sensor_msgs.msg..JointState: Output ROS message.
+        sensor_msgs.msg.JointState: Output ROS message.
     """
     return JointState(
         name=input.name,
@@ -307,7 +307,7 @@ def contact_numpy_to_msg(input: lfc_py_types.Contact) -> Contact:
         input (lfc_py_types.Contact): Input LFC representation of Control.
 
     Returns:
-        linear_feedback_controller_msgs.msg..Contact: Output ROS message.
+        linear_feedback_controller_msgs.msg.Contact: Output ROS message.
     """
     return Contact(
         active=input.active,
@@ -324,7 +324,7 @@ def sensor_numpy_to_msg(input: lfc_py_types.Sensor) -> Sensor:
         input (lfc_py_types.Sensor): Input LFC representation of Control.
 
     Returns:
-        linear_feedback_controller_msgs.msg..Sensor: Output ROS message.
+        linear_feedback_controller_msgs.msg.Sensor: Output ROS message.
     """
     return Sensor(
         base_pose=pose_numpy_to_msg(input.base_pose),
@@ -341,7 +341,7 @@ def control_numpy_to_msg(input: lfc_py_types.Control) -> Control:
         input (lfc_py_types.Control): Input LFC representation of Control.
 
     Returns:
-        linear_feedback_controller_msgs.msg..Control: Output ROS message.
+        linear_feedback_controller_msgs.msg.Control: Output ROS message.
     """
     return Control(
         feedback_gain=matrix_numpy_to_msg(input.feedback_gain),
