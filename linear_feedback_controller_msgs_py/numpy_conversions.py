@@ -7,7 +7,7 @@ from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 from geometry_msgs.msg import Pose, Point, Quaternion, Twist, Vector3, Wrench
 from sensor_msgs.msg import JointState
 
-import lfc_py_types
+import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
 
 from linear_feedback_controller_msgs.msg import Contact, Control, Sensor
 
@@ -26,61 +26,81 @@ def vector3_numpy_to_msg(input: np_array3) -> Vector3:
     Returns:
         geometry_msgs.msg.Vector3: Vector represented as a ROS message.
     """
-    assert len(input.shape) == 3, "Input vector is not of a length 3."
+    assert (
+        input.ndim == 1
+    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1!"
+    assert (
+        input.size == 3
+    ), f"Input vector has length of '{input.size}', expected length '3'!"
     return Vector3(x=input[0], y=input[1], z=input[2])
 
 
-def pose_numpy_to_msg(pose: np_array7) -> Pose:
+def pose_numpy_to_msg(input: np_array7) -> Pose:
     """Converts Numpy array of shape (7,) to ROS Pose message.
     Expected order of axes is (position.x, position.y, position.z, orientation.x,
     orientation.y, orientation.z, orientation.w).
 
     Args:
-        pose (npt.NDArray[np.float64], Literal[7]): Input pose as Numpy array.
+        input (npt.NDArray[np.float64], Literal[7]): Input pose as Numpy array.
 
     Returns:
         geometry_msgs.msg.Pose: Pose represented as a ROS message.
     """
-    assert len(pose.shape) == 7, "Input pose is not of a length 7."
-    return Wrench(
-        position=Point(x=pose[0], y=pose[1], z=pose[2]),
-        orientation=Quaternion(x=pose[3], y=pose[4], z=pose[5], w=pose[6]),
+    assert (
+        input.ndim == 1
+    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    assert (
+        input.size == 7
+    ), f"Input vector has length of '{input.size}', expected length '7'!"
+    return Pose(
+        position=Point(x=input[0], y=input[1], z=input[2]),
+        orientation=Quaternion(x=input[3], y=input[4], z=input[5], w=input[6]),
     )
 
 
-def wrench_numpy_to_msg(wrench: np_array6) -> Wrench:
+def wrench_numpy_to_msg(input: np_array6) -> Wrench:
     """Converts Numpy array of shape (6,) to ROS Wrench message.
     Expected order of axes is (force.x, force.y, force.z, torque.x,
     torque.y, torque.z).
 
     Args:
-        wrench (npt.NDArray[np.float64], Literal[6]): Input wrench as Numpy array.
+        input (npt.NDArray[np.float64], Literal[6]): Input wrench as Numpy array.
 
     Returns:
         geometry_msgs.msg.Wrench: Wrench represented as a ROS message.
     """
-    assert len(wrench.shape) == 6, "Input wrench is not of a length 6."
+    assert (
+        input.ndim == 1
+    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    assert (
+        input.size == 6
+    ), f"Input vector has length of '{input.size}', expected length '6'!"
     return Wrench(
-        force=vector3_numpy_to_msg(wrench[:3]),
-        torque=vector3_numpy_to_msg(wrench[3:]),
+        force=vector3_numpy_to_msg(input[:3]),
+        torque=vector3_numpy_to_msg(input[3:]),
     )
 
 
-def twist_numpy_to_msg(twist: np_array6) -> Twist:
+def twist_numpy_to_msg(input: np_array6) -> Twist:
     """Converts Numpy array of shape (6,) to ROS Twist message.
     Expected order of axes is (linear.x, linear.y, linear.z, angular.x,
     angular.y, angular.z).
 
     Args:
-        twist (npt.NDArray[np.float64], Literal[6]): Input twist as Numpy array.
+        input (npt.NDArray[np.float64], Literal[6]): Input twist as Numpy array.
 
     Returns:
         geometry_msgs.msg.Twist: Twist represented as a ROS message.
     """
-    assert len(twist.shape) == 6, "Input twist is not of a length 6."
+    assert (
+        input.ndim == 1
+    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    assert (
+        input.size == 6
+    ), f"Input vector has length of '{input.size}', expected length ''6!"
     return Twist(
-        linear=vector3_numpy_to_msg(twist[:3]),
-        angular=vector3_numpy_to_msg(twist[3:]),
+        linear=vector3_numpy_to_msg(input[:3]),
+        angular=vector3_numpy_to_msg(input[3:]),
     )
 
 
@@ -117,7 +137,8 @@ def wrench_msg_to_numpy(msg: Wrench) -> np_array6:
         msg (geometry_msgs.msg.Wrench): Input ROS Wrench message.
 
     Returns:
-        npt.NDArray[np.float64], Literal[6]: Numpy array of shape (6,) with force and torque vector concatenated.
+        npt.NDArray[np.float64], Literal[6]: Numpy array of shape (6,)
+        with force and torque vector concatenated.
     """
     return np.array(
         [
@@ -155,41 +176,43 @@ def twist_msg_to_numpy(msg: Twist) -> np_array6:
     )
 
 
-def matrix_numpy_to_msg(matrix: npt.NDArray[np.float64]) -> Float64MultiArray:
+def matrix_numpy_to_msg(input: npt.NDArray[np.float64]) -> Float64MultiArray:
     """Converts Numpy array into ROS array message.
 
     Args:
-        matrix (npt.NDArray[np.float64]]): Input matrix.
+        input (npt.NDArray[np.float64]]): Input matrix.
 
     Returns:
         Float64MultiArray: ROS message with the matrix.
     """
-    assert len(matrix.shape) == 2, "Input matrix is not 2D."
+    assert (
+        input.ndim == 2
+    ), f"Input matrix is dimension '{input.ndim}'. EXpected 2D matrix!"
 
     m = Float64MultiArray()
     m.layout.data_offset = 0
     m.layout.dim = [MultiArrayDimension(), MultiArrayDimension()]
     m.layout.dim[0].label = "rows"
-    m.layout.dim[0].size = matrix.shape[0]
-    m.layout.dim[0].stride = matrix.size
+    m.layout.dim[0].size = input.shape[0]
+    m.layout.dim[0].stride = input.size
     m.layout.dim[1].label = "cols"
-    m.layout.dim[1].stride = matrix.shape[1]
-    m.layout.dim[1].size = matrix.shape[1]
+    m.layout.dim[1].stride = input.shape[1]
+    m.layout.dim[1].size = input.shape[1]
     # Flatten the matrix to a vector
-    m.data = matrix.reshape(-1).tolist()
+    m.data = input.reshape(-1).tolist()
     return m
 
 
 def matrix_msg_to_numpy(msg: Float64MultiArray) -> npt.NDArray[np.float64]:
-    """Converts ROS array message into numpy array of a shape [nx, nu] with Riccati gains.
+    """Converts ROS array message into numpy array.
 
     Args:
-        msg (Float64MultiArray): Input ROS message with array of Riccati gains.
+        msg (Float64MultiArray): Input ROS message with array..
 
     Returns:
-        npt.NDArray[np.float64]: Output numpy matrix with Riccati gains.
+        npt.NDArray[np.float64]: Output numpy matrix.
     """
-    assert msg.layout.dim.size() == 2, "The ROS message must be a 2D matrix."
+    assert len(msg.layout.dim) == 2, "The ROS message must be a 2D matrix."
     return np.array(msg.data).reshape(msg.layout.dim[0].size, msg.layout.dim[1].size)
 
 

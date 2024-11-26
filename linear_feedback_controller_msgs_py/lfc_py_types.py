@@ -13,7 +13,7 @@ class JointState:
     sensor_msgs.msg.JointState.
     """
 
-    name: str
+    name: List[str]
     position: npt.NDArray[np.float64]
     velocity: npt.NDArray[np.float64]
     effort: npt.NDArray[np.float64]
