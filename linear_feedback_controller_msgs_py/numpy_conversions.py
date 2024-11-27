@@ -275,18 +275,22 @@ def sensor_msg_to_numpy(msg: Sensor) -> lfc_py_types.Sensor:
     )
 
 
-def control_msg_to_numpy(msg: Control) -> lfc_py_types.Control:
+def control_msg_to_numpy(
+    msg: Control, feedforward_as_vector: bool = True
+) -> lfc_py_types.Control:
     """Converts ROS Control message into internal LFC Control class.
 
     Args:
         msg (linear_feedback_controller_msgs.msg.Control): Input ROS message.
+        feedforward_as_vector (bool, optional): If ``True`` feedforward is returned
+        as a vector in a shape (N,) otherwise the shape is (N,1). Defaults to True.
 
     Returns:
         lfc_py_types.Control: Output LFC representation of Control.
     """
     return lfc_py_types.Control(
         feedback_gain=matrix_msg_to_numpy(msg.feedback_gain),
-        feedforward=matrix_msg_to_numpy(msg.feedforward),
+        feedforward=matrix_msg_to_numpy(msg.feedforward, feedforward_as_vector),
         initial_state=sensor_msg_to_numpy(msg.initial_state),
     )
 
