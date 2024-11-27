@@ -180,39 +180,47 @@ def matrix_numpy_to_msg(input: npt.NDArray[np.float64]) -> Float64MultiArray:
     """Converts Numpy array into ROS array message.
 
     Args:
-        input (npt.NDArray[np.float64]]): Input matrix.
+        input (npt.NDArray[np.float64]]): Input matrix of size (N,2) or (N,).
 
     Returns:
         std_msgs.msg.Float64MultiArray: ROS message with the matrix.
     """
+    # In case vector is passed consider is (N,1) array.
+    rows, cols = input.shape if input.ndim != 1 else (input.shape[0], 1)
     assert (
-        input.ndim == 2
-    ), f"Input matrix is dimension '{input.ndim}'. EXpected 2D matrix!"
+        input.ndim == 2 or input.ndim == 1
+    ), f"Input matrix is dimension '{input.ndim}'. Expected 2D matrix or 1D vector!"
 
     m = Float64MultiArray()
     m.layout.data_offset = 0
     m.layout.dim = [MultiArrayDimension(), MultiArrayDimension()]
     m.layout.dim[0].label = "rows"
-    m.layout.dim[0].size = input.shape[0]
+    m.layout.dim[0].size = rows
     m.layout.dim[0].stride = input.size
     m.layout.dim[1].label = "cols"
-    m.layout.dim[1].stride = input.shape[1]
-    m.layout.dim[1].size = input.shape[1]
+    m.layout.dim[1].stride = cols
+    m.layout.dim[1].size = cols
     # Flatten the matrix to a vector
     m.data = input.reshape(-1).tolist()
     return m
 
 
-def matrix_msg_to_numpy(msg: Float64MultiArray) -> npt.NDArray[np.float64]:
+def matrix_msg_to_numpy(
+    msg: Float64MultiArray, return_vector: bool = True
+) -> npt.NDArray[np.float64]:
     """Converts ROS array message into numpy array.
 
     Args:
         msg (std_msgs.msg.Float64MultiArray): Input ROS message with array.
+        return_vector (bool, optional): If ``True`` vector is returned in a shape (N,)
+        otherwise the shape is (N,1). Defaults to True.
 
     Returns:
         npt.NDArray[np.float64]: Output numpy matrix.
     """
-    assert len(msg.layout.dim) == 2, "The ROS message must be a 2D matrix."
+    assert len(msg.layout.dim) == 2, "The ROS message must be a 2D matrix!"
+    if return_vector and msg.layout.dim[1].size == 1:
+        return np.array(msg.data)
     return np.array(msg.data).reshape(msg.layout.dim[0].size, msg.layout.dim[1].size)
 
 

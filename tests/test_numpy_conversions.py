@@ -46,6 +46,25 @@ def test_check_ros_numpy_matrix_conversion() -> None:
         + "Numpy is not equal the initial matrix!",
     )
 
+    numpy_random_vector = np.random.rand(20)
+
+    ros_vector = matrix_numpy_to_msg(deepcopy(numpy_random_vector))
+
+    for return_vector in (True, False):
+        numpy_back_converted_vector = matrix_msg_to_numpy(ros_vector, return_vector)
+
+        np.testing.assert_array_equal(
+            numpy_back_converted_vector,
+            (
+                numpy_random_vector
+                if return_vector
+                else numpy_random_vector.reshape(-1, 1)
+            ),
+            err_msg="Vector after conversion back to "
+            + "Numpy is not equal the initial vector "
+            + f"for case with 'return_vector={return_vector}'",
+        )
+
 
 def test_check_ros_numpy_joint_state_conversion() -> None:
     numpy_joint_state = lfc_py_types.JointState(
