@@ -142,26 +142,27 @@ def test_check_ros_eigen_control_conversion() -> None:
     )
 
     assert (
-        numpy_control.joint_state.name == back_converted_numpy_control.joint_state.name
+        numpy_control.initial_state.joint_state.name
+        == back_converted_numpy_control.initial_state.joint_state.name
     ), "Names after conversion back to Numpy is not equal initial values!"
 
     np.testing.assert_array_equal(
-        numpy_control.joint_state.position,
-        back_converted_numpy_control.joint_state.position,
+        numpy_control.initial_state.joint_state.position,
+        back_converted_numpy_control.initial_state.joint_state.position,
         err_msg="Joint state position after conversion back to "
         + "Numpy is not equal initial values!",
     )
 
     np.testing.assert_array_equal(
-        numpy_control.joint_state.velocity,
-        back_converted_numpy_control.joint_state.velocity,
+        numpy_control.initial_state.joint_state.velocity,
+        back_converted_numpy_control.initial_state.joint_state.velocity,
         err_msg="Joint state velocity after conversion back to "
         + "Numpy is not equal initial values!",
     )
 
     np.testing.assert_array_equal(
-        numpy_control.joint_state.effort,
-        back_converted_numpy_control.joint_state.effort,
+        numpy_control.initial_state.joint_state.effort,
+        back_converted_numpy_control.initial_state.joint_state.effort,
         err_msg="Joint state effort after conversion back to "
         + "Numpy is not equal initial values!",
     )
