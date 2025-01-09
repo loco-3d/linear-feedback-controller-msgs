@@ -29,13 +29,16 @@ stdenv.mkDerivation {
     rosPackages.humble.ament-cmake
     rosPackages.humble.ament-cmake-cppcheck
     rosPackages.humble.ament-cmake-cpplint
-    rosPackages.humble.ament-cmake-uncrustify
     rosPackages.humble.ament-cmake-flake8
     rosPackages.humble.ament-cmake-pep257
+    rosPackages.humble.ament-cmake-uncrustify
     rosPackages.humble.rosidl-default-generators
-    rosPackages.humble.tf2-eigen
-    rosPackages.humble.sensor-msgs
+  ];
+
+  propagatedBuildInputs = [
     rosPackages.humble.geometry-msgs
+    rosPackages.humble.sensor-msgs
+    rosPackages.humble.tf2-eigen
   ];
 
   doCheck = true;
