@@ -5,7 +5,6 @@ project(linear_feedback_controller_msgs)
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(builtin_interfaces REQUIRED)
@@ -43,6 +42,9 @@ if(BUILD_TESTING)
   ament_add_gtest(test_eigen_conversions tests/test_eigen_conversions.cpp
                   tests/gtest_main.cpp)
   target_link_libraries(test_eigen_conversions ${PROJECT_NAME}_conversion)
+  set_tests_properties(test_eigen_conversions PROPERTIES
+      ENVIRONMENT_MODIFICATION
+      LD_LIBRARY_PATH=path_list_prepend:${CMAKE_CURRENT_BINARY_DIR})
 
   find_package(ament_cmake_pytest REQUIRED)
   set(_pytest_tests
@@ -51,7 +53,7 @@ if(BUILD_TESTING)
   foreach(_test_path ${_pytest_tests})
     get_filename_component(_test_name ${_test_path} NAME_WE)
     ament_add_pytest_test(${_test_name} ${_test_path}
-      APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}
+      APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}:${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py
       TIMEOUT 60
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
