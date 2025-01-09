@@ -10,10 +10,7 @@ on:
 
 jobs:
   nix:
-    runs-on: "${{ matrix.os }}-latest"
-    strategy:
-      matrix:
-        os: [ubuntu, macos]
+    runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
