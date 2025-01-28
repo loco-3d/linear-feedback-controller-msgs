@@ -104,7 +104,7 @@ def test_check_ros_numpy_joint_state_conversion() -> None:
     )
 
 
-def test_check_ros_eigen_control_conversion() -> None:
+def test_check_ros_numpy_control_conversion() -> None:
     quat = np.random.rand(4)
     quat = quat / np.linalg.norm(quat)
 
@@ -182,7 +182,7 @@ def test_check_ros_eigen_control_conversion() -> None:
     )
 
 
-def test_check_ros_eigen_sensor_conversions() -> None:
+def test_check_ros_numpy_sensor_conversions() -> None:
     quat = np.random.rand(4)
     quat = quat / np.linalg.norm(quat)
 
