@@ -27,14 +27,21 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 # Unit tests
 #
 if(BUILD_TESTING)
-  include_directories(include)
+  # CPP
   ament_add_gtest(test_${PROJECT_NAME}_conversions
     tests/test_eigen_conversions.cpp
     tests/gtest_main.cpp
   )
 
+  target_include_directories(test_${PROJECT_NAME}_conversions
+    PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  )
+
   rosidl_get_typesupport_target(cpp_typesupport_target
-    ${PROJECT_NAME} "rosidl_typesupport_cpp")
+    ${PROJECT_NAME} "rosidl_typesupport_cpp"
+  )
 
   target_link_libraries(test_${PROJECT_NAME}_conversions
     Eigen3::Eigen
@@ -42,6 +49,7 @@ if(BUILD_TESTING)
     "${cpp_typesupport_target}"
   )
 
+  # PYTHON
   find_package(ament_cmake_pytest REQUIRED)
   set(_pytest_tests
     tests/test_numpy_conversions.py
