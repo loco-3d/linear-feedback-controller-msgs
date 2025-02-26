@@ -5,8 +5,11 @@ project(linear_feedback_controller_msgs)
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
+# Require for _conversion
 find_package(Eigen3 REQUIRED)
 find_package(tf2_eigen REQUIRED)
+
+# Require by msg
 find_package(builtin_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -19,32 +22,29 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES builtin_interfaces std_msgs sensor_msgs geometry_msgs
   ADD_LINTER_TESTS
 )
-rosidl_get_typesupport_target(cpp_typesupport_target
-  ${PROJECT_NAME} rosidl_typesupport_cpp)
-
-#
-# Main lib.
-#
-set(${PROJECT_NAME}_HEADERS include/${PROJECT_NAME}/eigen_conversions.hpp)
-set(${PROJECT_NAME}_SOURCES "")
-add_library(${PROJECT_NAME}_conversion INTERFACE)
-target_link_libraries(${PROJECT_NAME}_conversion
-  INTERFACE Eigen3::Eigen tf2_eigen::tf2_eigen "${cpp_typesupport_target}")
-target_include_directories(
-  ${PROJECT_NAME}_conversion
-  INTERFACE $<INSTALL_INTERFACE:include/>
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
 #
 # Unit tests
 #
 if(BUILD_TESTING)
-  ament_add_gtest(test_eigen_conversions tests/test_eigen_conversions.cpp
-                  tests/gtest_main.cpp)
-  target_link_libraries(test_eigen_conversions ${PROJECT_NAME}_conversion)
-  set_tests_properties(test_eigen_conversions PROPERTIES
-      ENVIRONMENT_MODIFICATION
-      LD_LIBRARY_PATH=path_list_prepend:${CMAKE_CURRENT_BINARY_DIR})
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+
+  include_directories(include)
+  ament_add_gtest(${PROJECT_NAME}-tests
+    tests/test_eigen_conversions.cpp
+    tests/gtest_main.cpp
+  )
+
+  rosidl_get_typesupport_target(cpp_typesupport_target
+    ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+  target_link_libraries(${PROJECT_NAME}-tests
+    Eigen3::Eigen
+    tf2_eigen::tf2_eigen
+    "${cpp_typesupport_target}"
+  )
 
   find_package(ament_cmake_pytest REQUIRED)
   set(_pytest_tests
@@ -69,23 +69,13 @@ include(GNUInstallDirs)
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME}_py)
 
-install(
-  DIRECTORY
-  ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+install(DIRECTORY include/${PROJECT_NAME}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-)
-
-install(
-  TARGETS ${PROJECT_NAME}_conversion
-  EXPORT export_${PROJECT_NAME}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
 
-ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_export_include_directories(include)
 ament_export_dependencies(rosidl_default_runtime)
 ament_export_dependencies(eigen3_cmake_module)
 ament_export_dependencies(Eigen3)
