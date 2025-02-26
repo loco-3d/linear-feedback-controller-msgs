@@ -1,5 +1,5 @@
-#ifndef ROS_WBMPC_MSGS_ROS_EIGEN_CONVERSION_HPP
-#define ROS_WBMPC_MSGS_ROS_EIGEN_CONVERSION_HPP
+#ifndef LINEAR_FEEDBACK_CONTROLLER_MSGS__EIGEN_CONVERSIONS_HPP_
+#define LINEAR_FEEDBACK_CONTROLLER_MSGS__EIGEN_CONVERSIONS_HPP_
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
@@ -216,4 +216,4 @@ inline void controlEigenToMsg(
 
 }  // namespace linear_feedback_controller_msgs
 
-#endif  // ROS_WBMPC_MSGS_ROS_EIGEN_CONVERSION_HPP
+#endif  // LINEAR_FEEDBACK_CONTROLLER_MSGS__EIGEN_CONVERSIONS_HPP_
