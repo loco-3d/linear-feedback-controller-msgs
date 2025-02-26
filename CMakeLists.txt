@@ -28,7 +28,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 #
 if(BUILD_TESTING)
   include_directories(include)
-  ament_add_gtest(${PROJECT_NAME}-tests
+  ament_add_gtest(test_${PROJECT_NAME}_conversions
     tests/test_eigen_conversions.cpp
     tests/gtest_main.cpp
   )
@@ -36,7 +36,7 @@ if(BUILD_TESTING)
   rosidl_get_typesupport_target(cpp_typesupport_target
     ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
-  target_link_libraries(${PROJECT_NAME}-tests
+  target_link_libraries(test_${PROJECT_NAME}_conversions
     Eigen3::Eigen
     tf2_eigen::tf2_eigen
     "${cpp_typesupport_target}"
