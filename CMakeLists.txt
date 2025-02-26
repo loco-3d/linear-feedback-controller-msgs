@@ -70,17 +70,20 @@ include(GNUInstallDirs)
 ament_python_install_package(${PROJECT_NAME}_py)
 
 install(
+  DIRECTORY
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
+
+install(
   TARGETS ${PROJECT_NAME}_conversion
   EXPORT export_${PROJECT_NAME}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
-install(
-  DIRECTORY include/${PROJECT_NAME}
-  DESTINATION include
-  PATTERN "third_party" EXCLUDE)
 
 ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 ament_export_dependencies(rosidl_default_runtime)
