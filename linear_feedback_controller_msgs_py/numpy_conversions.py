@@ -238,6 +238,7 @@ def joint_state_msg_to_numpy(msg: JointState) -> lfc_py_types.JointState:
         position=np.array(msg.position),
         velocity=np.array(msg.velocity),
         effort=np.array(msg.effort),
+        header=msg.header,
     )
 
 
@@ -309,6 +310,7 @@ def joint_state_numpy_to_msg(input: lfc_py_types.JointState) -> JointState:
         position=input.position,
         velocity=input.velocity,
         effort=input.effort,
+        header=input.header,
     )
 
 

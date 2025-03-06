@@ -16,6 +16,7 @@ struct JointState {
   ::Eigen::VectorXd position;
   ::Eigen::VectorXd velocity;
   ::Eigen::VectorXd effort;
+  rclcpp::Time stamp;
 };
 
 struct Contact {
@@ -114,6 +115,7 @@ inline void jointStateMsgToEigen(
                                                      m.velocity.size());
   e.effort =
       ::Eigen::Map<const ::Eigen::VectorXd>(m.effort.data(), m.effort.size());
+  e.stamp = m.header.stamp;
 }
 
 inline void contactMsgToEigen(
@@ -171,6 +173,7 @@ inline void jointStateEigenToMsg(
                                    e.velocity.data() + e.velocity.size());
   m.effort =
       std::vector<double>(e.effort.data(), e.effort.data() + e.effort.size());
+  m.header.stamp = e.stamp;
 }
 
 inline void contactEigenToMsg(

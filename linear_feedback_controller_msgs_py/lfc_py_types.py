@@ -2,6 +2,7 @@ from typing import Annotated, List, Literal
 from dataclasses import dataclass
 import numpy as np
 import numpy.typing as npt
+from std_msgs.msg import Header
 
 np_array6 = Annotated[npt.NDArray[np.float64], Literal[6]]
 np_array7 = Annotated[npt.NDArray[np.float64], Literal[7]]
@@ -17,6 +18,7 @@ class JointState:
     position: npt.NDArray[np.float64]
     velocity: npt.NDArray[np.float64]
     effort: npt.NDArray[np.float64]
+    header: Header
 
 
 @dataclass
