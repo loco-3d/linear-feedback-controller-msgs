@@ -6,6 +6,7 @@ from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 
 from geometry_msgs.msg import Pose, Point, Quaternion, Twist, Vector3, Wrench
 from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
 
 import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
 
@@ -238,7 +239,7 @@ def joint_state_msg_to_numpy(msg: JointState) -> lfc_py_types.JointState:
         position=np.array(msg.position),
         velocity=np.array(msg.velocity),
         effort=np.array(msg.effort),
-        header=msg.header,
+        stamp=msg.header.stamp,
     )
 
 
@@ -310,7 +311,7 @@ def joint_state_numpy_to_msg(input: lfc_py_types.JointState) -> JointState:
         position=input.position,
         velocity=input.velocity,
         effort=input.effort,
-        header=input.header,
+        header=Header(stamp=input.stamp),
     )
 
 
