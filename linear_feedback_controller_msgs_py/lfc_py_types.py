@@ -18,7 +18,6 @@ class JointState:
     position: npt.NDArray[np.float64]
     velocity: npt.NDArray[np.float64]
     effort: npt.NDArray[np.float64]
-    stamp: Time
 
 
 @dataclass
@@ -43,6 +42,7 @@ class Sensor:
     base_twist: np_array6
     joint_state: JointState
     contacts: List[Contact]
+    stamp: Time
 
 
 @dataclass
@@ -54,3 +54,4 @@ class Control:
     feedback_gain: npt.NDArray[np.float64]
     feedforward: npt.NDArray[np.float64]
     initial_state: Sensor
+    stamp: Time

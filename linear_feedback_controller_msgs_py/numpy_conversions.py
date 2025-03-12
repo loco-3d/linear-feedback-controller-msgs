@@ -239,7 +239,6 @@ def joint_state_msg_to_numpy(msg: JointState) -> lfc_py_types.JointState:
         position=np.array(msg.position),
         velocity=np.array(msg.velocity),
         effort=np.array(msg.effort),
-        stamp=msg.header.stamp,
     )
 
 
@@ -274,6 +273,7 @@ def sensor_msg_to_numpy(msg: Sensor) -> lfc_py_types.Sensor:
         base_twist=twist_msg_to_numpy(msg.base_twist),
         joint_state=joint_state_msg_to_numpy(msg.joint_state),
         contacts=[contact_msg_to_numpy(contact) for contact in msg.contacts],
+        stamp=msg.header.stamp,
     )
 
 
@@ -294,6 +294,7 @@ def control_msg_to_numpy(
         feedback_gain=matrix_msg_to_numpy(msg.feedback_gain),
         feedforward=matrix_msg_to_numpy(msg.feedforward, feedforward_as_vector),
         initial_state=sensor_msg_to_numpy(msg.initial_state),
+        stamp=msg.header.stamp,
     )
 
 
@@ -311,7 +312,6 @@ def joint_state_numpy_to_msg(input: lfc_py_types.JointState) -> JointState:
         position=input.position,
         velocity=input.velocity,
         effort=input.effort,
-        header=Header(stamp=input.stamp),
     )
 
 
@@ -346,6 +346,7 @@ def sensor_numpy_to_msg(input: lfc_py_types.Sensor) -> Sensor:
         base_twist=twist_numpy_to_msg(input.base_twist),
         joint_state=joint_state_numpy_to_msg(input.joint_state),
         contacts=[contact_numpy_to_msg(contact) for contact in input.contacts],
+        header=Header(stamp=input.stamp),
     )
 
 
@@ -362,4 +363,5 @@ def control_numpy_to_msg(input: lfc_py_types.Control) -> Control:
         feedback_gain=matrix_numpy_to_msg(input.feedback_gain),
         feedforward=matrix_numpy_to_msg(input.feedforward),
         initial_state=sensor_numpy_to_msg(input.initial_state),
+        header=Header(stamp=input.stamp),
     )
