@@ -7,6 +7,7 @@ from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 from geometry_msgs.msg import Pose, Point, Quaternion, Twist, Vector3, Wrench
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
+from rclpy.time import Time
 
 import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
 
@@ -273,7 +274,7 @@ def sensor_msg_to_numpy(msg: Sensor) -> lfc_py_types.Sensor:
         base_twist=twist_msg_to_numpy(msg.base_twist),
         joint_state=joint_state_msg_to_numpy(msg.joint_state),
         contacts=[contact_msg_to_numpy(contact) for contact in msg.contacts],
-        stamp=msg.header.stamp,
+        stamp=Time.from_msg(msg.header.stamp),
     )
 
 
@@ -294,7 +295,7 @@ def control_msg_to_numpy(
         feedback_gain=matrix_msg_to_numpy(msg.feedback_gain),
         feedforward=matrix_msg_to_numpy(msg.feedforward, feedforward_as_vector),
         initial_state=sensor_msg_to_numpy(msg.initial_state),
-        stamp=msg.header.stamp,
+        stamp=Time.from_msg(msg.header.stamp),
     )
 
 
@@ -346,7 +347,7 @@ def sensor_numpy_to_msg(input: lfc_py_types.Sensor) -> Sensor:
         base_twist=twist_numpy_to_msg(input.base_twist),
         joint_state=joint_state_numpy_to_msg(input.joint_state),
         contacts=[contact_numpy_to_msg(contact) for contact in input.contacts],
-        header=Header(stamp=input.stamp),
+        header=Header(stamp=input.stamp.to_msg()),
     )
 
 
@@ -363,5 +364,5 @@ def control_numpy_to_msg(input: lfc_py_types.Control) -> Control:
         feedback_gain=matrix_numpy_to_msg(input.feedback_gain),
         feedforward=matrix_numpy_to_msg(input.feedforward),
         initial_state=sensor_numpy_to_msg(input.initial_state),
-        header=Header(stamp=input.stamp),
+        header=Header(stamp=input.stamp.to_msg()),
     )
