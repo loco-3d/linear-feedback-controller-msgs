@@ -22,6 +22,7 @@ def test_check_numpy_constructors() -> None:
         wrench=np.ones(6),
         pose=np.ones(7),
     )
+    # Test the Sensor and Control constructor with and without stamp for backward compatibility
     sensor = lfc_py_types.Sensor(
         base_pose=np.ones(7),
         base_twist=np.ones(6),
@@ -34,6 +35,18 @@ def test_check_numpy_constructors() -> None:
         feedforward=np.ones(4),
         initial_state=sensor,
         stamp=Time(),
+    )
+
+    sensor = lfc_py_types.Sensor(
+        base_pose=np.ones(7),
+        base_twist=np.ones(6),
+        joint_state=joint_state,
+        contacts=[contact],
+    )
+    lfc_py_types.Control(
+        feedback_gain=np.ones((4, 4)),
+        feedforward=np.ones(4),
+        initial_state=sensor,
     )
 
 

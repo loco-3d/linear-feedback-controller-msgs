@@ -1,5 +1,5 @@
 from typing import Annotated, List, Literal
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 import numpy.typing as npt
 from rclpy.time import Time
@@ -42,7 +42,7 @@ class Sensor:
     base_twist: np_array6
     joint_state: JointState
     contacts: List[Contact]
-    stamp: Time
+    stamp: Time = field(default_factory=Time)
 
 
 @dataclass
@@ -54,4 +54,4 @@ class Control:
     feedback_gain: npt.NDArray[np.float64]
     feedforward: npt.NDArray[np.float64]
     initial_state: Sensor
-    stamp: Time
+    stamp: Time = field(default_factory=Time)
