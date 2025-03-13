@@ -30,12 +30,14 @@ struct Sensor {
   ::Eigen::Matrix<double, 6, 1> base_twist;
   JointState joint_state;
   std::vector<Contact> contacts;
+  rclcpp::Time stamp;
 };
 
 struct Control {
   ::Eigen::MatrixXd feedback_gain;
   ::Eigen::VectorXd feedforward;
   linear_feedback_controller_msgs::Eigen::Sensor initial_state;
+  rclcpp::Time stamp;
 };
 }  // namespace Eigen
 
@@ -147,6 +149,7 @@ inline void sensorMsgToEigen(
   for (std::size_t i = 0; i < m.contacts.size(); ++i) {
     contactMsgToEigen(m.contacts[i], e.contacts[i]);
   }
+  e.stamp = m.header.stamp;
 }
 
 inline void controlMsgToEigen(
@@ -155,6 +158,7 @@ inline void controlMsgToEigen(
   matrixMsgToEigen(m.feedback_gain, e.feedback_gain);
   matrixMsgToEigen(m.feedforward, e.feedforward);
   sensorMsgToEigen(m.initial_state, e.initial_state);
+  e.stamp = m.header.stamp;
 }
 
 /**
@@ -204,6 +208,7 @@ inline void sensorEigenToMsg(
   for (std::size_t i = 0; i < e.contacts.size(); ++i) {
     contactEigenToMsg(e.contacts[i], m.contacts[i]);
   }
+  m.header.stamp = e.stamp;
 }
 
 inline void controlEigenToMsg(
@@ -212,6 +217,7 @@ inline void controlEigenToMsg(
   matrixEigenToMsg(e.feedback_gain, m.feedback_gain);
   matrixEigenToMsg(e.feedforward, m.feedforward);
   sensorEigenToMsg(e.initial_state, m.initial_state);
+  m.header.stamp = e.stamp;
 }
 
 }  // namespace linear_feedback_controller_msgs

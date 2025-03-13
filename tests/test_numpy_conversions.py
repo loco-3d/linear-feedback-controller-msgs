@@ -2,6 +2,8 @@
 
 import numpy as np
 from copy import deepcopy
+from rclpy.time import Time
+from builtin_interfaces.msg import Time as TimeMsg
 
 from linear_feedback_controller_msgs_py.numpy_conversions import *
 import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
@@ -20,6 +22,21 @@ def test_check_numpy_constructors() -> None:
         wrench=np.ones(6),
         pose=np.ones(7),
     )
+    # Test the Sensor and Control constructor with and without stamp for backward compatibility
+    sensor = lfc_py_types.Sensor(
+        base_pose=np.ones(7),
+        base_twist=np.ones(6),
+        joint_state=joint_state,
+        contacts=[contact],
+        stamp=Time(),
+    )
+    lfc_py_types.Control(
+        feedback_gain=np.ones((4, 4)),
+        feedforward=np.ones(4),
+        initial_state=sensor,
+        stamp=Time(),
+    )
+
     sensor = lfc_py_types.Sensor(
         base_pose=np.ones(7),
         base_twist=np.ones(6),
@@ -119,12 +136,14 @@ def test_check_ros_numpy_control_conversion() -> None:
                 effort=np.random.rand(6),
             ),
             contacts=[],
+            stamp=Time.from_msg(TimeMsg(sec=np.random.randint(0, 100))),
         ),
         feedback_gain=np.random.rand(8, 4),
         feedforward=np.random.rand(4),
+        stamp=Time.from_msg(TimeMsg(sec=np.random.randint(0, 100))),
     )
 
-    ros_control_msg = control_numpy_to_msg(deepcopy(numpy_control))
+    ros_control_msg = control_numpy_to_msg(numpy_control)
     back_converted_numpy_control = control_msg_to_numpy(ros_control_msg)
 
     np.testing.assert_array_equal(
@@ -181,6 +200,15 @@ def test_check_ros_numpy_control_conversion() -> None:
         + "Numpy is not equal initial values!",
     )
 
+    assert (
+        numpy_control.stamp == back_converted_numpy_control.stamp
+    ), "Control stamp conversion failed."
+
+    assert (
+        numpy_control.initial_state.stamp
+        == back_converted_numpy_control.initial_state.stamp
+    ), "Control initial state stamp conversion failed."
+
 
 def test_check_ros_numpy_sensor_conversions() -> None:
     quat = np.random.rand(4)
@@ -196,6 +224,9 @@ def test_check_ros_numpy_sensor_conversions() -> None:
             effort=np.random.rand(6),
         ),
         contacts=[],
+        # Note that we have to create the time using a Time message to set the clock type
+        # of the C++ rcl Time to ROS_TIME.
+        stamp=Time.from_msg(TimeMsg(sec=np.random.randint(0, 100))),
     )
 
     numpy_sensor.contacts.append(
@@ -216,7 +247,7 @@ def test_check_ros_numpy_sensor_conversions() -> None:
         )
     )
 
-    ros_sensor = sensor_numpy_to_msg(deepcopy(numpy_sensor))
+    ros_sensor = sensor_numpy_to_msg(numpy_sensor)
     numpy_back_converted_sensor = sensor_msg_to_numpy(ros_sensor)
 
     np.testing.assert_array_equal(
@@ -257,6 +288,10 @@ def test_check_ros_numpy_sensor_conversions() -> None:
         err_msg="Joint efforts after conversion back to "
         + "Numpy is not equal initial values!",
     )
+
+    assert (
+        numpy_sensor.stamp == numpy_back_converted_sensor.stamp
+    ), "Sensor stamp conversion failed."
 
     assert len(numpy_sensor.contacts) == len(
         numpy_back_converted_sensor.contacts
