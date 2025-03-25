@@ -1,8 +1,6 @@
 {
   description = "ROS messages which correspond to the loco-3d/linear-feedback-controller package.";
 
-  # [2025/03/25] Target develop as main branch is too unstable for now.
-  # Keep it until next release on jazzy.
   inputs.nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/develop";
 
   outputs =
