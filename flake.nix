@@ -1,7 +1,7 @@
 {
   description = "ROS messages which correspond to the loco-3d/linear-feedback-controller package.";
 
-  inputs.nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+  inputs.nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/develop";
 
   outputs =
     { nix-ros-overlay, self, ... }:

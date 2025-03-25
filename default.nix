@@ -26,19 +26,19 @@ stdenv.mkDerivation {
     cmake
     eigen
     python3Packages.python
-    rosPackages.humble.ament-cmake
-    rosPackages.humble.ament-cmake-cppcheck
-    rosPackages.humble.ament-cmake-cpplint
-    rosPackages.humble.ament-cmake-flake8
-    rosPackages.humble.ament-cmake-pep257
-    rosPackages.humble.ament-cmake-uncrustify
-    rosPackages.humble.rosidl-default-generators
+    rosPackages.jazzy.ament-cmake
+    rosPackages.jazzy.ament-cmake-cppcheck
+    rosPackages.jazzy.ament-cmake-cpplint
+    rosPackages.jazzy.ament-cmake-flake8
+    rosPackages.jazzy.ament-cmake-pep257
+    rosPackages.jazzy.ament-cmake-uncrustify
+    rosPackages.jazzy.rosidl-default-generators
   ];
 
   propagatedBuildInputs = [
-    rosPackages.humble.geometry-msgs
-    rosPackages.humble.sensor-msgs
-    rosPackages.humble.tf2-eigen
+    rosPackages.jazzy.geometry-msgs
+    rosPackages.jazzy.sensor-msgs
+    rosPackages.jazzy.tf2-eigen
   ];
 
   doCheck = true;
