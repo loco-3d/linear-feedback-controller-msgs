@@ -3,13 +3,9 @@ name: "CI - Nix"
 on:
   push:
     branches:
-    - humble
-    - humble-devel
     - jazzy
   pull_request:
     branches:
-    - humble
-    - humble-devel
     - jazzy
 
 jobs:
