@@ -1,11 +1,11 @@
 name: "CI - Nix"
+
 on:
   push:
     branches:
-    - humble-devel
+    - main
   pull_request:
-    branches:
-    - humble-devel
+
 jobs:
   ci:
     name: "Nix build on ${{ matrix.os }}"
