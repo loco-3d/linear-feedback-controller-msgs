@@ -1,6 +1,10 @@
-name: Ubuntu20.04, ROS2 Continuous Integration
+name: ROS2 Continuous Integration
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - main
+  pull_request:
 
 jobs:
   build:
