@@ -20,7 +20,7 @@
 # Metadata
 ##########
 
-Header header
+std_msgs/Header header
 
 # Control data
 ##############
