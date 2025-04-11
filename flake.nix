@@ -1,26 +1,57 @@
 {
   description = "ROS messages which correspond to the loco-3d/linear-feedback-controller package.";
 
-  inputs.nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+  inputs = {
+    gepetto.url = "github:gepetto/nix";
+    flake-parts.follows = "gepetto/flake-parts";
+    nixpkgs.follows = "gepetto/nixpkgs";
+    nix-ros-overlay.follows = "gepetto/nix-ros-overlay";
+    treefmt-nix.follows = "gepetto/treefmt-nix";
+  };
 
   outputs =
-    { nix-ros-overlay, self, ... }:
-    nix-ros-overlay.inputs.flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nix-ros-overlay.inputs.nixpkgs {
-          inherit system;
-          overlays = [ nix-ros-overlay.overlays.default ];
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+      imports = [ inputs.treefmt-nix.flakeModule ];
+      perSystem =
+        {
+          lib,
+          pkgs,
+          system,
+          self',
+          ...
+        }:
+        {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [
+              inputs.nix-ros-overlay.overlays.default
+              inputs.gepetto.overlays.default
+            ];
+          };
+          checks = lib.mapAttrs' (n: lib.nameValuePair "package-${n}") self'.packages;
+          packages = {
+            default = self'.packages.linear-feedback-controller-msgs-py;
+            linear-feedback-controller-msgs-py = pkgs.python3Packages.toPythonModule self'.packages.linear-feedback-controller-msgs;
+            linear-feedback-controller-msgs = pkgs.linear-feedback-controller-msgs.overrideAttrs {
+              src = lib.fileset.toSource {
+                root = ./.;
+                fileset = lib.fileset.unions [
+                  ./CMakeLists.txt
+                  ./include
+                  ./linear_feedback_controller_msgs_py
+                  ./msg
+                  ./package.xml
+                  ./tests
+                ];
+              };
+            };
+          };
+          treefmt.programs = {
+            deadnix.enable = true;
+            nixfmt.enable = true;
+          };
         };
-      in
-      {
-        packages = {
-          default = self.packages.${system}.linear-feedback-controller-msgs-py;
-          linear-feedback-controller-msgs = pkgs.callPackage ./default.nix { };
-          linear-feedback-controller-msgs-py =
-            pkgs.python3Packages.toPythonModule
-              self.packages.${system}.linear-feedback-controller-msgs;
-        };
-      }
-    );
+    };
 }
