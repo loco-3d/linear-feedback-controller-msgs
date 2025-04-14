@@ -31,7 +31,8 @@
             ];
           };
           checks = lib.mapAttrs' (n: lib.nameValuePair "package-${n}") self'.packages;
-          packages = let
+          packages =
+            let
               src = lib.fileset.toSource {
                 root = ./.;
                 fileset = lib.fileset.unions [
@@ -43,12 +44,15 @@
                   ./tests
                 ];
               };
-            in {
+            in
+            {
               default = self'.packages.humble-linear-feedback-controller-msgs;
               humble-linear-feedback-controller-msgs =
-                pkgs.rosPackages.humble.linear-feedback-controller-msgs.overrideAttrs { inherit src; };
+                pkgs.rosPackages.humble.linear-feedback-controller-msgs.overrideAttrs
+                  { inherit src; };
               jazzy-linear-feedback-controller-msgs =
-                pkgs.rosPackages.jazzy.linear-feedback-controller-msgs.overrideAttrs { inherit src; };
+                pkgs.rosPackages.jazzy.linear-feedback-controller-msgs.overrideAttrs
+                  { inherit src; };
             };
           treefmt.programs = {
             deadnix.enable = true;
