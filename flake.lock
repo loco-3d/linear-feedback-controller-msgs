@@ -61,16 +61,16 @@
         "src-franka-description": "src-franka-description",
         "src-gepetto-viewer": "src-gepetto-viewer",
         "src-linear-feedback-controller": "src-linear-feedback-controller",
-        "src-linear-feedback-controller-msgs": "src-linear-feedback-controller-msgs",
+        "src-linear-feedback-controller-jazzy": "src-linear-feedback-controller-jazzy",
         "src-toolbox-parallel-robots": "src-toolbox-parallel-robots",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1744367296,
-        "narHash": "sha256-ri88NYNz+D/lx9Hjg1Nfbp4FHyyIIaykqTmiKblKz+g=",
+        "lastModified": 1744548531,
+        "narHash": "sha256-wnuDWz6TBxVcUCcKZrrRa5xNOKPkEltcKV2oUbfQX7o=",
         "owner": "gepetto",
         "repo": "nix",
-        "rev": "14a1972a4c0d4ddd8ffaa6599bc59887f085fbc8",
+        "rev": "402dd958b7397378ebf57e7ef80dffba9e745c9f",
         "type": "github"
       },
       "original": {
@@ -85,11 +85,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1744157591,
-        "narHash": "sha256-18WMXNLZ91ot9wFyF/yMai68IcBgwnnwIIndoOflzlA=",
+        "lastModified": 1744468481,
+        "narHash": "sha256-emh5JOO9C4xDl6Lo4AjrS+Al/JH+DbRPV3VbXq5oqVI=",
         "owner": "lopsided98",
         "repo": "nix-ros-overlay",
-        "rev": "215f4895bf988ca94d2ccd09c9bd5d0971f9fcb9",
+        "rev": "693deec8307b9a14b2972431f82f8f9fa2f59018",
         "type": "github"
       },
       "original": {
@@ -368,19 +368,20 @@
         "type": "github"
       }
     },
-    "src-linear-feedback-controller-msgs": {
+    "src-linear-feedback-controller-jazzy": {
       "flake": false,
       "locked": {
-        "lastModified": 1742893469,
-        "narHash": "sha256-+VY+ctfvcDJee+lWvSnemJGSiBhOIAAZDRjmaooI13Q=",
+        "lastModified": 1743498558,
+        "narHash": "sha256-Wvk/QZUFJXsdifvnu4zb1YHplTx5hl96t8fnOMfTZ4M=",
         "owner": "loco-3d",
-        "repo": "linear-feedback-controller-msgs",
-        "rev": "f5dd80805134e2fa56757637f489a1a6dc68e747",
+        "repo": "linear-feedback-controller",
+        "rev": "8c7760e79883e345342a2445daf54076084a5bb6",
         "type": "github"
       },
       "original": {
         "owner": "loco-3d",
-        "repo": "linear-feedback-controller-msgs",
+        "ref": "jazzy",
+        "repo": "linear-feedback-controller",
         "type": "github"
       }
     },

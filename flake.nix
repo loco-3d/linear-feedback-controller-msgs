@@ -32,21 +32,22 @@
           };
           checks = lib.mapAttrs' (n: lib.nameValuePair "package-${n}") self'.packages;
           packages = {
-            default = self'.packages.linear-feedback-controller-msgs-py;
-            linear-feedback-controller-msgs-py = pkgs.python3Packages.toPythonModule self'.packages.linear-feedback-controller-msgs;
-            linear-feedback-controller-msgs = pkgs.linear-feedback-controller-msgs.overrideAttrs {
-              src = lib.fileset.toSource {
-                root = ./.;
-                fileset = lib.fileset.unions [
-                  ./CMakeLists.txt
-                  ./include
-                  ./linear_feedback_controller_msgs_py
-                  ./msg
-                  ./package.xml
-                  ./tests
-                ];
-              };
-            };
+            default = self'.packages.linear-feedback-controller-msgs;
+            linear-feedback-controller-msgs =
+              pkgs.rosPackages.humble.linear-feedback-controller-msgs.overrideAttrs
+                {
+                  src = lib.fileset.toSource {
+                    root = ./.;
+                    fileset = lib.fileset.unions [
+                      ./CMakeLists.txt
+                      ./include
+                      ./linear_feedback_controller_msgs_py
+                      ./msg
+                      ./package.xml
+                      ./tests
+                    ];
+                  };
+                };
           };
           treefmt.programs = {
             deadnix.enable = true;
