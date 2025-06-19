@@ -21,7 +21,7 @@ jobs:
       # Setup the machines and build environment
       #
       - name: Install ROS.
-        uses: ros-tooling/setup-ros@0.7.9
+        uses: ros-tooling/setup-ros@0.7.14
         with:
           required-ros-distributions: ${{ matrix.ros_version }}
 
@@ -33,7 +33,7 @@ jobs:
       #
       # Build and test the repo
       #
-      - uses: ros-tooling/action-ros-ci@0.3.14
+      - uses: ros-tooling/action-ros-ci@0.4.4
         with:
           package-name: linear_feedback_controller_msgs
           target-ros2-distro: ${{ matrix.ros_version }}
