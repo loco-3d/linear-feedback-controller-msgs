@@ -16,12 +16,7 @@
       systems = import inputs.systems;
       imports = [ inputs.gepetto.flakeModule ];
       perSystem =
-        {
-          lib,
-          pkgs,
-          self',
-          ...
-        }:
+        { lib, pkgs, ... }:
         {
           packages =
             let
@@ -37,15 +32,15 @@
                 ];
               };
             in
-            {
-              default = self'.packages.humble-linear-feedback-controller-msgs;
+            lib.filterAttrs (_n: v: v.meta.available && !v.meta.broken) (rec {
+              default = humble-linear-feedback-controller-msgs;
               humble-linear-feedback-controller-msgs =
                 pkgs.rosPackages.humble.linear-feedback-controller-msgs.overrideAttrs
                   { inherit src; };
               jazzy-linear-feedback-controller-msgs =
                 pkgs.rosPackages.jazzy.linear-feedback-controller-msgs.overrideAttrs
                   { inherit src; };
-            };
+            });
         };
     };
 }
