@@ -36,16 +36,10 @@
               default = humble-linear-feedback-controller-msgs;
               humble-linear-feedback-controller-msgs =
                 pkgs.rosPackages.humble.linear-feedback-controller-msgs.overrideAttrs
-                  (super: {
-                    inherit src;
-                    nativeBuildInputs = (super.nativeBuildInputs or [ ]) ++ [ pkgs.jrl-cmakemodules ];
-                  });
+                  { inherit src; };
               jazzy-linear-feedback-controller-msgs =
                 pkgs.rosPackages.jazzy.linear-feedback-controller-msgs.overrideAttrs
-                  (super: {
-                    inherit src;
-                    nativeBuildInputs = (super.nativeBuildInputs or [ ]) ++ [ pkgs.jrl-cmakemodules ];
-                  });
+                  { inherit src; };
             });
         };
     };
