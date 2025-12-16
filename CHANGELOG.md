@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+- Add changelog ;)
+
 ## [1.0.0] - 2025-11-04
 
 - Use the branch main as the unique branch.
