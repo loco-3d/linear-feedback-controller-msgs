@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+## [1.1.2] - 2025-12-19
+
 - Add changelog ;)
 
 ## [1.1.1] - 2025-11-04
@@ -55,7 +57,8 @@ This ROS1 message package is meant for the
 [linear-feedback-controller](https://github.com/loco-3d/linear-feedback-controller)
 package.
 
-[Unreleased]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v0.1.3...v1.0.0
