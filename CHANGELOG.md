@@ -11,10 +11,17 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 - Add changelog ;)
 
-## [1.0.0] - 2025-11-04
+## [1.1.1] - 2025-11-04
 
-- Use the branch main as the unique branch.
+- In the package.xml
+  - Fix the license name
+  - Fix the github url
+  - Add the jrl-cmakemodules
+- Upgrade the nix packaging adding an overlay.
 
+## [1.1.0] - 2025-10-23
+
+- !!! Use the branch main as the unique branch.
 - Add the dependency to jrl-cmakemodules
 - Changed and upgrade the CI using Nix and ros-github-actions
 - Fix typo in CMakeLists.txt
