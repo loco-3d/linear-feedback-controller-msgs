@@ -55,8 +55,6 @@ This ROS1 message package is meant for the
 [linear-feedback-controller](https://github.com/loco-3d/linear-feedback-controller)
 package.
 
-## Git changelogs
-
 [Unreleased]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.0...HEAD
 [1.1.0]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v0.1.3...v1.0.0
