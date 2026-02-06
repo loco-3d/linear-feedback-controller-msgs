@@ -15,6 +15,10 @@ jobs:
             ubuntu_version: "ubuntu-22.04"
           - ros_version: "jazzy"
             ubuntu_version: "ubuntu-24.04"
+          - ros_version: "kilted"
+            ubuntu_version: "ubuntu-24.04"
+          - ros_version: "rolling"
+            ubuntu_version: "ubuntu-24.04"
     runs-on: ${{ matrix.ubuntu_version }}
     steps:
       #
