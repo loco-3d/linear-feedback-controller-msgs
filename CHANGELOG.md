@@ -9,6 +9,9 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+- Add kilted & rolling support
+- Fix dependency declarations for ament_cmake_gtest & ament_cmake_pytest
+
 ## [1.1.2] - 2025-12-19
 
 - Add changelog ;)
