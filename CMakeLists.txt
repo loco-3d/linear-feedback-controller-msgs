@@ -66,6 +66,7 @@ target_include_directories(
 # Unit tests
 #
 if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
   ament_add_gtest(test_eigen_conversions tests/test_eigen_conversions.cpp
                   tests/gtest_main.cpp)
   target_link_libraries(test_eigen_conversions ${PROJECT_NAME}_conversion)
