@@ -1,21 +1,11 @@
-# This is a message that holds data to describe the state of a set of torque controlled joints.
+# This is a message that holds data to describe the control computed by an optimal controller.
 #
-# The state of each joint (revolute or prismatic) is defined by:
-#  * the position of the joint (rad or m),
-#  * the velocity of the joint (rad/s or m/s) and
-#  * the effort that is applied in the joint (Nm or N).
+# The message contains:
+# - a classical ROS header
+# - the linear feedback gain matrix, a.k.a. the Ricatti (LQR equivalent) gain matrix.
+# - the feedforward vector, in this case the joitn torques usually.
+# - the initial state of the system, the Sensor message used as initial state for the optimal control problem.
 #
-# Each joint is uniquely identified by its name
-# The header specifies the time at which the joint states were recorded. All the joint states
-# in one message have to be recorded at the same time.
-#
-# This message consists of a multiple arrays, one for each part of the joint state.
-# The goal is to make each of the fields optional. When e.g. your joints have no
-# effort associated with them, you can leave the effort array empty.
-#
-# All arrays in this message should have the same size, or be empty.
-# This is the only way to uniquely associate the joint name with the correct
-# states.
 
 # Metadata
 ##########
