@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+- Fix the docstring in the control.msg
+
 ## [1.2.0] - 2026-02-07
 
 - Add kilted & rolling support
