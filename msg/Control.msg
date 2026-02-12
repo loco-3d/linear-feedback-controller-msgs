@@ -5,7 +5,7 @@
 # - the linear feedback gain matrix, a.k.a. the Ricatti (LQR equivalent) gain matrix.
 # - the feedforward vector, in this case the joitn torques usually.
 # - the initial state of the system, the Sensor message used as initial state for the optimal control problem.
-# 
+#
 
 # Metadata
 ##########
