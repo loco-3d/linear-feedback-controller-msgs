@@ -5,7 +5,7 @@ from copy import deepcopy
 from rclpy.time import Time
 from builtin_interfaces.msg import Time as TimeMsg
 
-from linear_feedback_controller_msgs_py.numpy_conversions import *
+from linear_feedback_controller_msgs_py import numpy_conversions as npc
 import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
 
 
@@ -53,8 +53,8 @@ def test_check_numpy_constructors() -> None:
 def test_check_ros_numpy_matrix_conversion() -> None:
     numpy_random_matrix = np.random.rand(5, 6)
 
-    ros_matrix = matrix_numpy_to_msg(deepcopy(numpy_random_matrix))
-    numpy_back_converted_matrix = matrix_msg_to_numpy(ros_matrix)
+    ros_matrix = npc.matrix_numpy_to_msg(deepcopy(numpy_random_matrix))
+    numpy_back_converted_matrix = npc.matrix_msg_to_numpy(ros_matrix)
 
     np.testing.assert_array_equal(
         numpy_back_converted_matrix,
@@ -65,10 +65,10 @@ def test_check_ros_numpy_matrix_conversion() -> None:
 
     numpy_random_vector = np.random.rand(20)
 
-    ros_vector = matrix_numpy_to_msg(deepcopy(numpy_random_vector))
+    ros_vector = npc.matrix_numpy_to_msg(deepcopy(numpy_random_vector))
 
     for return_vector in (True, False):
-        numpy_back_converted_vector = matrix_msg_to_numpy(ros_vector, return_vector)
+        numpy_back_converted_vector = npc.matrix_msg_to_numpy(ros_vector, return_vector)
 
         np.testing.assert_array_equal(
             numpy_back_converted_vector,
@@ -92,12 +92,12 @@ def test_check_ros_numpy_joint_state_conversion() -> None:
     )
 
     # Pass deep copy to ensure memory is separate
-    ros_joint_state = joint_state_numpy_to_msg(deepcopy(numpy_joint_state))
-    numpy_back_converted_join_state = joint_state_msg_to_numpy(ros_joint_state)
+    ros_joint_state = npc.joint_state_numpy_to_msg(deepcopy(numpy_joint_state))
+    numpy_back_converted_join_state = npc.joint_state_msg_to_numpy(ros_joint_state)
 
-    assert (
-        numpy_joint_state.name == numpy_back_converted_join_state.name
-    ), "Names after conversion back to Numpy is not equal initial values!"
+    assert numpy_joint_state.name == numpy_back_converted_join_state.name, (
+        "Names after conversion back to Numpy is not equal initial values!"
+    )
 
     np.testing.assert_array_equal(
         numpy_joint_state.position,
@@ -143,8 +143,8 @@ def test_check_ros_numpy_control_conversion() -> None:
         stamp=Time.from_msg(TimeMsg(sec=np.random.randint(0, 100))),
     )
 
-    ros_control_msg = control_numpy_to_msg(numpy_control)
-    back_converted_numpy_control = control_msg_to_numpy(ros_control_msg)
+    ros_control_msg = npc.control_numpy_to_msg(numpy_control)
+    back_converted_numpy_control = npc.control_msg_to_numpy(ros_control_msg)
 
     np.testing.assert_array_equal(
         numpy_control.initial_state.base_pose,
@@ -200,9 +200,9 @@ def test_check_ros_numpy_control_conversion() -> None:
         + "Numpy is not equal initial values!",
     )
 
-    assert (
-        numpy_control.stamp == back_converted_numpy_control.stamp
-    ), "Control stamp conversion failed."
+    assert numpy_control.stamp == back_converted_numpy_control.stamp, (
+        "Control stamp conversion failed."
+    )
 
     assert (
         numpy_control.initial_state.stamp
@@ -247,8 +247,8 @@ def test_check_ros_numpy_sensor_conversions() -> None:
         )
     )
 
-    ros_sensor = sensor_numpy_to_msg(numpy_sensor)
-    numpy_back_converted_sensor = sensor_msg_to_numpy(ros_sensor)
+    ros_sensor = npc.sensor_numpy_to_msg(numpy_sensor)
+    numpy_back_converted_sensor = npc.sensor_msg_to_numpy(ros_sensor)
 
     np.testing.assert_array_equal(
         numpy_sensor.base_pose,
@@ -289,23 +289,23 @@ def test_check_ros_numpy_sensor_conversions() -> None:
         + "Numpy is not equal initial values!",
     )
 
-    assert (
-        numpy_sensor.stamp == numpy_back_converted_sensor.stamp
-    ), "Sensor stamp conversion failed."
+    assert numpy_sensor.stamp == numpy_back_converted_sensor.stamp, (
+        "Sensor stamp conversion failed."
+    )
 
-    assert len(numpy_sensor.contacts) == len(
-        numpy_back_converted_sensor.contacts
-    ), "Number of contacts after conversion doesn't match number of contacts before conversion!"
+    assert len(numpy_sensor.contacts) == len(numpy_back_converted_sensor.contacts), (
+        "Number of contacts after conversion doesn't match number of contacts before conversion!"
+    )
 
     for i in range(len(numpy_sensor.contacts)):
         c1 = numpy_sensor.contacts[i]
         c2 = numpy_back_converted_sensor.contacts[i]
-        assert (
-            c1.active == c2.active
-        ), f"Active parameter before and after conversion differs at index '{i}'"
-        assert (
-            c1.name == c2.name
-        ), f"Name parameter before and after conversion differs at index '{i}'"
+        assert c1.active == c2.active, (
+            f"Active parameter before and after conversion differs at index '{i}'"
+        )
+        assert c1.name == c2.name, (
+            f"Name parameter before and after conversion differs at index '{i}'"
+        )
 
         np.testing.assert_array_equal(
             c1.wrench,

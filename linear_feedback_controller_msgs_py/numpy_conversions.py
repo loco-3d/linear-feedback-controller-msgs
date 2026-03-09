@@ -28,12 +28,12 @@ def vector3_numpy_to_msg(input: np_array3) -> Vector3:
     Returns:
         geometry_msgs.msg.Vector3: Vector represented as a ROS message.
     """
-    assert (
-        input.ndim == 1
-    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1!"
-    assert (
-        input.size == 3
-    ), f"Input vector has length of '{input.size}', expected length '3'!"
+    assert input.ndim == 1, (
+        f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1!"
+    )
+    assert input.size == 3, (
+        f"Input vector has length of '{input.size}', expected length '3'!"
+    )
     return Vector3(x=input[0], y=input[1], z=input[2])
 
 
@@ -48,12 +48,12 @@ def pose_numpy_to_msg(input: np_array7) -> Pose:
     Returns:
         geometry_msgs.msg.Pose: Pose represented as a ROS message.
     """
-    assert (
-        input.ndim == 1
-    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
-    assert (
-        input.size == 7
-    ), f"Input vector has length of '{input.size}', expected length '7'!"
+    assert input.ndim == 1, (
+        f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    )
+    assert input.size == 7, (
+        f"Input vector has length of '{input.size}', expected length '7'!"
+    )
     return Pose(
         position=Point(x=input[0], y=input[1], z=input[2]),
         orientation=Quaternion(x=input[3], y=input[4], z=input[5], w=input[6]),
@@ -71,12 +71,12 @@ def wrench_numpy_to_msg(input: np_array6) -> Wrench:
     Returns:
         geometry_msgs.msg.Wrench: Wrench represented as a ROS message.
     """
-    assert (
-        input.ndim == 1
-    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
-    assert (
-        input.size == 6
-    ), f"Input vector has length of '{input.size}', expected length '6'!"
+    assert input.ndim == 1, (
+        f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    )
+    assert input.size == 6, (
+        f"Input vector has length of '{input.size}', expected length '6'!"
+    )
     return Wrench(
         force=vector3_numpy_to_msg(input[:3]),
         torque=vector3_numpy_to_msg(input[3:]),
@@ -94,12 +94,12 @@ def twist_numpy_to_msg(input: np_array6) -> Twist:
     Returns:
         geometry_msgs.msg.Twist: Twist represented as a ROS message.
     """
-    assert (
-        input.ndim == 1
-    ), f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
-    assert (
-        input.size == 6
-    ), f"Input vector has length of '{input.size}', expected length ''6!"
+    assert input.ndim == 1, (
+        f"Input vector has '{input.ndim}' dimensions, expected dimension size of 1"
+    )
+    assert input.size == 6, (
+        f"Input vector has length of '{input.size}', expected length ''6!"
+    )
     return Twist(
         linear=vector3_numpy_to_msg(input[:3]),
         angular=vector3_numpy_to_msg(input[3:]),
@@ -189,9 +189,9 @@ def matrix_numpy_to_msg(input: npt.NDArray[np.float64]) -> Float64MultiArray:
     """
     # In case vector is passed consider is (N,1) array.
     rows, cols = input.shape if input.ndim != 1 else (input.shape[0], 1)
-    assert (
-        input.ndim == 2 or input.ndim == 1
-    ), f"Input matrix is dimension '{input.ndim}'. Expected 2D matrix or 1D vector!"
+    assert input.ndim == 2 or input.ndim == 1, (
+        f"Input matrix is dimension '{input.ndim}'. Expected 2D matrix or 1D vector!"
+    )
 
     m = Float64MultiArray()
     m.layout.data_offset = 0
