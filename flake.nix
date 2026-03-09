@@ -19,7 +19,7 @@
         imports = [
           inputs.gazebros2nix.flakeModule
           {
-            gazebros2nix.rosPackages = {
+            gazebros2nix.rosOverrides = {
               linear-feedback-controller-msgs = _final: _ros-final: {
                 src = lib.fileset.toSource {
                   root = ./.;
