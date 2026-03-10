@@ -10,6 +10,7 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 ## [Unreleased]
 
 - Fix the docstring in the control.msg
+- Fix tf2 dependency export
 
 ## [1.2.0] - 2026-02-07
 

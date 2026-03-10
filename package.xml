@@ -25,6 +25,7 @@
 
   <buildtool_export_depend>eigen3_cmake_module</buildtool_export_depend>
   <build_export_depend>eigen</build_export_depend>
+  <build_export_depend>tf2_eigen</build_export_depend>
 
   <!-- Build the services and messages -->
   <exec_depend>rosidl_default_runtime</exec_depend>

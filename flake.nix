@@ -19,28 +19,21 @@
         imports = [
           inputs.gazebros2nix.flakeModule
           {
-            gazebros2nix.rosOverrides = {
-              linear-feedback-controller-msgs = _final: _ros-final: {
-                src = lib.fileset.toSource {
-                  root = ./.;
-                  fileset = lib.fileset.unions [
-                    ./CMakeLists.txt
-                    ./include
-                    ./linear_feedback_controller_msgs_py
-                    ./msg
-                    ./package.xml
-                    ./tests
-                  ];
-                };
+            gazebros2nix.rosOverrides.linear-feedback-controller-msgs = _final: _ros-final: {
+              src = lib.fileset.toSource {
+                root = ./.;
+                fileset = lib.fileset.unions [
+                  ./CMakeLists.txt
+                  ./include
+                  ./linear_feedback_controller_msgs_py
+                  ./msg
+                  ./package.xml
+                  ./tests
+                ];
               };
             };
           }
         ];
-        perSystem =
-          { self', ... }:
-          {
-            packages.default = self'.packages.ros-rolling-linear-feedback-controller-msgs;
-          };
       }
     );
 }
