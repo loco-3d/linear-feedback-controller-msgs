@@ -20,7 +20,6 @@
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
-  <depend>tf2_eigen</depend>
 
   <build_export_depend>eigen</build_export_depend>
   <build_export_depend>tf2_eigen</build_export_depend>
