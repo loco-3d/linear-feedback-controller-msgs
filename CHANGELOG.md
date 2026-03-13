@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+- add missing dependencies for `ADD_LINTER_TESTS`
+
 ## [1.2.1] - 2026-03-10
 
 - Fix the docstring in the control.msg
