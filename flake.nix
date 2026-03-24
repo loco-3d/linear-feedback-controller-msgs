@@ -3,6 +3,7 @@
 
   inputs = {
     gazebros2nix.url = "github:gepetto/gazebros2nix";
+    flakoboros.follows = "gazebros2nix/flakoboros";
     flake-parts.follows = "gazebros2nix/flake-parts";
     nixpkgs.follows = "gazebros2nix/nixpkgs";
     nix-ros-overlay.follows = "gazebros2nix/nix-ros-overlay";
@@ -19,7 +20,7 @@
         imports = [
           inputs.gazebros2nix.flakeModule
           {
-            gazebros2nix.rosOverrides.linear-feedback-controller-msgs = _final: _ros-final: {
+            flakoboros.rosOverrideAttrs.linear-feedback-controller-msgs = _: _: {
               src = lib.fileset.toSource {
                 root = ./.;
                 fileset = lib.fileset.unions [
