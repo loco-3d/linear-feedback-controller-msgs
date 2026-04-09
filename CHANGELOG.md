@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-04-09
+
 - add missing dependencies for `ADD_LINTER_TESTS`
 
 ## [1.2.1] - 2026-03-10
@@ -69,7 +71,8 @@ This ROS1 message package is meant for the
 [linear-feedback-controller](https://github.com/loco-3d/linear-feedback-controller)
 package.
 
-[Unreleased]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/loco-3d/linear-feedback-controller-msgs/compare/v1.1.1...v1.1.2
