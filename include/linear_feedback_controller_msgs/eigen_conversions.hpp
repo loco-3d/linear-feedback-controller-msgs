@@ -37,6 +37,10 @@ struct Control {
   ::Eigen::MatrixXd feedback_gain;
   ::Eigen::VectorXd feedforward;
   linear_feedback_controller_msgs::Eigen::Sensor initial_state;
+  // Optional: the solution's state(s) after initial_state. Each element's own
+  // .stamp is the time it applies at -- do not assume a fixed period between
+  // elements, read the stamps. Empty when not used.
+  std::vector<linear_feedback_controller_msgs::Eigen::Sensor> next_states;
   rclcpp::Time stamp;
 };
 }  // namespace Eigen
@@ -158,6 +162,10 @@ inline void controlMsgToEigen(
   matrixMsgToEigen(m.feedback_gain, e.feedback_gain);
   matrixMsgToEigen(m.feedforward, e.feedforward);
   sensorMsgToEigen(m.initial_state, e.initial_state);
+  e.next_states.resize(m.next_states.size());
+  for (std::size_t i = 0; i < m.next_states.size(); ++i) {
+    sensorMsgToEigen(m.next_states[i], e.next_states[i]);
+  }
   e.stamp = m.header.stamp;
 }
 
@@ -217,6 +225,10 @@ inline void controlEigenToMsg(
   matrixEigenToMsg(e.feedback_gain, m.feedback_gain);
   matrixEigenToMsg(e.feedforward, m.feedforward);
   sensorEigenToMsg(e.initial_state, m.initial_state);
+  m.next_states.resize(e.next_states.size());
+  for (std::size_t i = 0; i < e.next_states.size(); ++i) {
+    sensorEigenToMsg(e.next_states[i], m.next_states[i]);
+  }
   m.header.stamp = e.stamp;
 }
 
