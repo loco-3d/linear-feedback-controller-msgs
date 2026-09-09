@@ -1,5 +1,6 @@
-from typing import Annotated, List, Literal
 from dataclasses import dataclass, field
+from typing import Annotated, Literal
+
 import numpy as np
 import numpy.typing as npt
 from rclpy.time import Time
@@ -14,7 +15,7 @@ class JointState:
     sensor_msgs.msg.JointState.
     """
 
-    name: List[str]
+    name: list[str]
     position: npt.NDArray[np.float64]
     velocity: npt.NDArray[np.float64]
     effort: npt.NDArray[np.float64]
@@ -41,7 +42,7 @@ class Sensor:
     base_pose: np_array7
     base_twist: np_array6
     joint_state: JointState
-    contacts: List[Contact]
+    contacts: list[Contact]
     stamp: Time = field(default_factory=Time)
 
 
@@ -57,5 +58,5 @@ class Control:
     # Optional: the solution's state(s) after initial_state. Each element's own
     # .stamp is the time it applies at -- do not assume a fixed period between
     # elements, read the stamps. Empty when not used.
-    next_states: List[Sensor] = field(default_factory=list)
+    next_states: list[Sensor] = field(default_factory=list)
     stamp: Time = field(default_factory=Time)

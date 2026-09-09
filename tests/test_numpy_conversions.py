@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-import numpy as np
 from copy import deepcopy
-from rclpy.time import Time
-from builtin_interfaces.msg import Time as TimeMsg
 
+import numpy as np
+from builtin_interfaces.msg import Time as TimeMsg
+from rclpy.time import Time
+
+from linear_feedback_controller_msgs_py import lfc_py_types
 from linear_feedback_controller_msgs_py import numpy_conversions as npc
-import linear_feedback_controller_msgs_py.lfc_py_types as lfc_py_types
 
 
 def test_check_numpy_constructors() -> None:
