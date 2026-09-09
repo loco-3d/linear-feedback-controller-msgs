@@ -9,6 +9,8 @@ Releases are available on the [github repository](https://github.com/loco-3d/lin
 
 ## [Unreleased]
 
+- feat: optional next_states on Control, for reference interpolation
+
 ## [1.2.2] - 2026-04-09
 
 - add missing dependencies for `ADD_LINTER_TESTS`
