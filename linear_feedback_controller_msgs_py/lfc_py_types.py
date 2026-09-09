@@ -54,4 +54,8 @@ class Control:
     feedback_gain: npt.NDArray[np.float64]
     feedforward: npt.NDArray[np.float64]
     initial_state: Sensor
+    # Optional: the solution's state(s) after initial_state. Each element's own
+    # .stamp is the time it applies at -- do not assume a fixed period between
+    # elements, read the stamps. Empty when not used.
+    next_states: List[Sensor] = field(default_factory=list)
     stamp: Time = field(default_factory=Time)

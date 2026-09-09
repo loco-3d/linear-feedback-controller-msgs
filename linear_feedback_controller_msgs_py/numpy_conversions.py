@@ -295,6 +295,7 @@ def control_msg_to_numpy(
         feedback_gain=matrix_msg_to_numpy(msg.feedback_gain),
         feedforward=matrix_msg_to_numpy(msg.feedforward, feedforward_as_vector),
         initial_state=sensor_msg_to_numpy(msg.initial_state),
+        next_states=[sensor_msg_to_numpy(s) for s in msg.next_states],
         stamp=Time.from_msg(msg.header.stamp),
     )
 
@@ -364,5 +365,6 @@ def control_numpy_to_msg(input: lfc_py_types.Control) -> Control:
         feedback_gain=matrix_numpy_to_msg(input.feedback_gain),
         feedforward=matrix_numpy_to_msg(input.feedforward),
         initial_state=sensor_numpy_to_msg(input.initial_state),
+        next_states=[sensor_numpy_to_msg(s) for s in input.next_states],
         header=Header(stamp=input.stamp.to_msg()),
     )
